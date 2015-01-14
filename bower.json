@@ -1,0 +1,31 @@
+{
+  "name": "waypoint-animation",
+  "version": "0.0.0",
+  "homepage": "https://github.com/meodai/waypoint-animation",
+  "authors": [
+    "David Aerne <meodai@gmail.com>"
+  ],
+  "description": "animates things on scroll-waypoints",
+  "main": "waypoint-animation.js",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "scroll",
+    "animation",
+    "fancy"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requestAnimationFrame": "~0.0.22",
+    "jquery": "~2.1.3"
+  }
+}

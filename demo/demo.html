@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HTML5 boilerplate – all you really need…</title>
+    <style>
+        section {
+            height: 500px;
+        }
+        section.is-shown {
+            background: fuchsia;
+            transition: background 500ms;
+        }
+    </style>
+</head>
+<body>
+    <section class="js-animation-trigger">
+        <h1>Section 1</h1>
+    </section>
+    <section class="js-animation-trigger">
+        <h1>Section 2</h1>
+    </section>
+    <section class="js-animation-trigger">
+        <h1>Section 3</h1>
+    </section>
+    <section class="js-animation-trigger">
+        <h1>Section 4</h1>
+    </section>
+    <section class="js-animation-trigger">
+        <h1>Section 5</h1>
+    </section>
+    <section class="js-animation-trigger">
+        <h1>Section 6</h1>
+    </section>
+    <section>
+        <h1>Blind Section</h1>
+    </section>
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/requestAnimationFrame/app/requestAnimationFrame.js"></script>
+    <script src="../waypoint-animation.js"></script>
+    <script>
+        waypointAnimation();
+    </script>
+
+</body>
+</html>
