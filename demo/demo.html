@@ -46,7 +46,11 @@
     <script src="../bower_components/requestAnimationFrame/app/requestAnimationFrame.js"></script>
     <script src="../waypoint-animation.js"></script>
     <script>
-        waypointAnimation();
+        wpa = new WaypointAnimation({removeClasses: true});
+
+        wpa.on(function(o){
+            console.log(this,o);
+        });
     </script>
 
 </body>
