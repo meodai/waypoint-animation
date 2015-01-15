@@ -44,15 +44,28 @@
   visibleElements = [];
   callbacks = [];
 
+  /**
+   * updateWindowHeight updates the context height
+   * @returns {void}
+   */
   updateWindowHeight = function() {
     windowHeight = $w.height();
   };
 
+  /**
+   * updateScrollPosition : update the scroll positions typically called on scroll event
+   * @returns {void}
+   */
   updateScrollPosition = function() {
     scrollTopPosition = $w.scrollTop();
     scrollBottomPosition = scrollTopPosition + windowHeight;
   };
 
+  /**
+   * measureElement finds out the vertical position
+   * @param   {object} $el jQuery DOM reference
+   * @returns {object}     containing the coordinates of the element
+   */
   measureElement = function($el) {
     var top = $el.offset().top;
     return {
@@ -61,6 +74,11 @@
     };
   };
 
+  /**
+   * measureAllEllements measures all the registered element-positions
+   * @param   {string} triggerSelector the DOM selector!
+   * @returns {void}
+   */
   measureAllEllements = function(triggerSelector) {
     elements = $(triggerSelector).map(function() {
       var $el = $(this);
@@ -72,6 +90,10 @@
     });
   };
 
+  /**
+   * triggerCallbacks triggers the registered callbacks
+   * @returns {void}
+   */
   triggerCallbacks = function() {
     appearingElements.forEach(function(element) {
       callbacks.forEach(function(callback) {
@@ -80,6 +102,12 @@
     });
   };
 
+  /**
+   * isVisible determines if an DOM element is visible or not based on its position
+   * @param   {int}     top    top position of the element in PX
+   * @param   {int}     bottom top position of the element in PX
+   * @returns {Boolean}        true if its visible
+   */
   isVisible = function(top, bottom) {
     if (scrollBottomPosition > top && scrollTopPosition < top) {
       return true;
@@ -89,6 +117,11 @@
     }
   };
 
+  /**
+   * findVisibles looks for all elements that are visible, and also keeps track of elements
+   * that newly show up or disappear from the visible range
+   * @returns {void}
+   */
   findVisibles = function() {
     appearingElements = [];
     disappearingElements = [];
@@ -109,6 +142,12 @@
     triggerCallbacks();
   };
 
+  /**
+   * updateVisibleClasses sets and remove CSS-classes that are newly shown or hidden
+   * @param   {string}        className     name of the CSS-class that should be added
+   * @param   {boolean}       removeClasses determines if className should be removed, once an element leaves the visible range again
+   * @returns {void}
+   */
   updateVisibleClasses = function(className, removeClasses) {
     $.each(appearingElements, function() {
       this.$el.addClass(className);
@@ -121,6 +160,11 @@
     }
   };
 
+  /**
+   * WaypointAnimation is the main Class that is exposed
+   * @param   {obj} options options that will extend the DEFAULT_OPTIONS
+   * @returns {void}
+   */
   WaypointAnimation = function(options) {
     var self;
 
@@ -149,10 +193,19 @@
   };
 
   WaypointAnimation.prototype = {
+    /**
+     * calls the functions needed to update the visibility
+     * @returns {void}
+     */
     updateVisibles: function() {
       findVisibles();
       updateVisibleClasses(this.options.activeClass, this.options.removeClasses);
     },
+    /**
+     * On registers a callback
+     * @param   {Function} callback callback function that will be called when elements change state
+     * @returns {void}
+     */
     on: function(callback) {
       callbacks.push(callback);
     }
