@@ -1,5 +1,5 @@
 # waypoint-animation
-know if a element on the page is in the visible scrollrange or not. Only works vertically for now.
+know if a element on the page is in the visible scroll-range or not. Only works vertically for now.
 
 ### Installation
 
@@ -19,14 +19,14 @@ By creating a new instance of WaypointAnimation, it will automatically add a 'ac
   });
 ```
 
-Callbacks can be registred, that are called every time an element becomes visible or invisible.
+Callbacks can be registered, that are called every time an element becomes visible or invisible.
 
 ```javascript
   wpa.on(function(o){
     console.log(this,o);
   });
 ```
-`this` will be the DOM element that changed its state. The only argument passed is an `object` that contains informations about the positioning and the visbility of the element.
+`this` will be the DOM element that changed its state. The only argument passed is an `object` that contains informations about the positioning and the viability of the element.
 
 ### Options
 ```javascript
@@ -39,7 +39,7 @@ Callbacks can be registred, that are called every time an element becomes visibl
 
 #### triggerSelector
 *default* '.js-animation-trigger'
-defines the class of the elements that should be mesured. Every time an element with this class will scroll in to visible range, the magic will hapen.
+defines the class of the elements that should be measured. Every time an element with this class will scroll in to visible range, the magic will happen.
 
 #### activeClass
 *default* 'is-shown'
