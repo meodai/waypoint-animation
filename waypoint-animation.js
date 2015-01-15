@@ -14,16 +14,18 @@
   var waypointAnimation, updateWindowHeight, updateScrollPosition,
   measureElement, measureAllEllements, findVisibles, isVisible, updateVisibleClasses,
 
-  // globals
-  defaultOptions, windowHeight, scrollTopPosition, scrollBottomPosition,
-  elements, nameSpace, visibleElements,
+  // constants
+  DEFAULT_OPTIONS, NAME_SPACE,
+
+  // vars
+  windowHeight, scrollTopPosition, scrollBottomPosition, visibleElements, elements,
 
   // DOM elements
   $w;
 
-  nameSpace = 'waypointAnimation';
+  NAME_SPACE = 'waypointAnimation';
 
-  defaultOptions = {
+  DEFAULT_OPTIONS = {
     triggerSelector: '.js-animation-trigger',
     animationClass: 'is-shown',
     removeClasses: false,
@@ -93,7 +95,7 @@
 
   waypointAnimation = function(options) {
     var updateVisibles;
-    options = $.extend({}, defaultOptions, options);
+    options = $.extend({}, DEFAULT_OPTIONS, options);
 
     updateWindowHeight();
     updateScrollPosition();
@@ -106,14 +108,14 @@
 
     updateVisibles();
 
-    $w.on('resize.' + nameSpace + ' orientationchange.' + nameSpace, function() {
+    $w.on('resize.' + NAME_SPACE + ' orientationchange.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
         updateWindowHeight();
         measureAllEllements(options.triggerSelector);
 
         updateVisibles();
       });
-    }).on('scroll.' + nameSpace, function() {
+    }).on('scroll.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
         updateScrollPosition();
         updateVisibles();
