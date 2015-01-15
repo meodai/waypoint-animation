@@ -18,7 +18,7 @@
   DEFAULT_OPTIONS, NAME_SPACE,
 
   // vars
-  windowHeight, scrollTopPosition, scrollBottomPosition, visibleElements, appearingElements, disappearingElements, elements, callbacks,
+  windowHeight, scrollTopPosition, scrollBottomPosition, appearingElements, disappearingElements, elements, callbacks,
 
   // DOM elements
   $w;
