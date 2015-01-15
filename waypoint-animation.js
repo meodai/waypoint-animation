@@ -10,10 +10,13 @@
 }(this, function ($) {
   'use strict';
   //functions
-  var waypointAnimation, updateWindowHeight, updateScrollPosition, measureElement, measureAllEllements, addElement, findVisibles, isVisible, updateVisibleClasses,
+  var waypointAnimation, updateWindowHeight, updateScrollPosition,
+  measureElement, measureAllEllements, addElement,
+  findVisibles, isVisible, updateVisibleClasses,
 
   //globals
-  defaultOptions, windowHeight, scrollTopPosition, scrollBottomPosition, wasScrolled, elements, nameSpace, visibleElements,
+  defaultOptions, windowHeight, scrollTopPosition, scrollBottomPosition,
+  elements, nameSpace, visibleElements,
 
   //dom elements
   $w, $d;
@@ -32,7 +35,6 @@
 
   windowHeight = 0;
   scrollTopPosition = 0;
-  wasScrolled = false;
 
   elements = [];
 
@@ -99,7 +101,7 @@
     findVisibles();
     updateVisibleClasses(options.animationClass,options.removeClasses);
 
-    $w.on('resize.' + nameSpace, function(){
+    $w.on('resize.' + nameSpace + ' orientationchange.' + nameSpace, function(){
       requestAnimationFrame(function(){
         updateWindowHeight();
         measureAllEllements(options.triggerSelector);
