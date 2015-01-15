@@ -1,28 +1,28 @@
 /*global module:false*/
 
-"use strict";
+'use strict';
 
 module.exports = function(grunt) {
 
-  require("load-grunt-tasks")(grunt);
+  require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
     watch: {
       linting: {
-        files: "*.js",
-        tasks: ["eslint"]
+        files: '*.js',
+        tasks: ['eslint']
       }
     },
     eslint: {
       options: {
-          config: ".eslintrc"
+          config: '.eslintrc'
       },
-      files: ["*.js"]
+      files: ['*.js']
     }
   });
 
   // Default task.
-  grunt.registerTask("default", ["eslint"]);
-  grunt.registerTask("dev",     ["eslint", "watch"]);
+  grunt.registerTask('default', ['eslint']);
+  grunt.registerTask('dev',     ['eslint', 'watch']);
 
 };

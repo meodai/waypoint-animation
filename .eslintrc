@@ -19,3 +19,4 @@ rules:
     valid-jsdoc: [2, { prefer: { "return": "returns"}}]
     wrap-iife: 2
     global-strict: [2, "always"]
+    quotes: [2, "single", "avoid-escape"]
