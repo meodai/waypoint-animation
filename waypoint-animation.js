@@ -18,7 +18,7 @@
   DEFAULT_OPTIONS, NAME_SPACE,
 
   // vars
-  windowHeight, scrollTopPosition, scrollBottomPosition, appearingElements, disappearingElements, elements, callbacks,
+  windowHeight, scrollTopPosition, scrollBottomPosition, visibleElements, appearingElements, disappearingElements, elements, callbacks,
 
   // DOM elements
   $w;
@@ -28,7 +28,7 @@
 
   DEFAULT_OPTIONS = {
     triggerSelector: '.js-animation-trigger',
-    animationClass: 'is-shown',
+    activeClass: 'is-shown',
     removeClasses: false,
     offset: 0
   };
@@ -151,7 +151,7 @@
   WaypointAnimation.prototype = {
     updateVisibles: function() {
       findVisibles();
-      updateVisibleClasses(this.options.animationClass, this.options.removeClasses);
+      updateVisibleClasses(this.options.activeClass, this.options.removeClasses);
     },
     on: function(callback) {
       callbacks.push(callback);
