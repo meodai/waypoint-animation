@@ -4,7 +4,7 @@ know if a element on the page is in the visible scrollrange or not. Only works v
 ### Installation
 
 ```
-  bower install scroll-waypoints
+  bower install waypoint-animation
 ```
 
 ### Usage
