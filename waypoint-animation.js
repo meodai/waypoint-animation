@@ -7,23 +7,24 @@
     define(['jquery', 'requestAnimationFrame'], factory);
   } else {
     // Browser globals
-    root.waypointAnimation = factory(root.$);
+    root.WaypointAnimation = factory(root.$);
   }
 }(this, function ($) {
   // functions
-  var waypointAnimation, updateWindowHeight, updateScrollPosition,
-  measureElement, measureAllEllements, findVisibles, isVisible, updateVisibleClasses,
+  var WaypointAnimation, updateWindowHeight, updateScrollPosition,
+  measureElement, measureAllEllements, findVisibles, isVisible, updateVisibleClasses, triggerCallbacks,
 
   // constants
   DEFAULT_OPTIONS, NAME_SPACE,
 
   // vars
-  windowHeight, scrollTopPosition, scrollBottomPosition, visibleElements, elements,
+  windowHeight, scrollTopPosition, scrollBottomPosition, visibleElements, appearingElements, disappearingElements, elements, callbacks,
 
   // DOM elements
   $w;
 
-  NAME_SPACE = 'waypointAnimation';
+  // initializing vars
+  NAME_SPACE = 'WaypointAnimation';
 
   DEFAULT_OPTIONS = {
     triggerSelector: '.js-animation-trigger',
@@ -38,6 +39,10 @@
   scrollTopPosition = 0;
 
   elements = [];
+  disappearingElements = [];
+  appearingElements = [];
+  visibleElements = [];
+  callbacks = [];
 
   updateWindowHeight = function() {
     windowHeight = $w.height();
@@ -61,8 +66,17 @@
       var $el = $(this);
       return {
         $el: $el,
-        position: measureElement($el)
+        position: measureElement($el),
+        isVisible: false
       };
+    });
+  };
+
+  triggerCallbacks = function() {
+    appearingElements.forEach(function(element) {
+      callbacks.forEach(function(callback) {
+        callback.call(element.$el[0], element);
+      });
     });
   };
 
@@ -76,52 +90,73 @@
   };
 
   findVisibles = function() {
-    visibleElements = $.map(elements, function(data) {
-      if (isVisible(data.position.top, data.position.bottom)) {
-        return data;
+    appearingElements = [];
+    disappearingElements = [];
+
+    // update visibility and filter new visible elements
+    visibleElements = elements.filter(function (i, data) {
+      var wasVisible = data.isVisible;
+      data.isVisible = isVisible(data.position.top, data.position.bottom);
+      if (data.isVisible && !wasVisible) {
+        appearingElements.push(data);
+      } else if (!data.isVisible && wasVisible) {
+        disappearingElements.push(data);
       }
+
+      return data.isVisible;
     });
+
+    triggerCallbacks();
   };
 
   updateVisibleClasses = function(className, removeClasses) {
-    $.each(visibleElements, function() {
+    $.each(appearingElements, function() {
       this.$el.addClass(className);
     });
     if (removeClasses) {
-      return true;
       // remove classes if not visible
+      $.each(disappearingElements, function() {
+        this.$el.removeClass(className);
+      });
     }
   };
 
-  waypointAnimation = function(options) {
-    var updateVisibles;
-    options = $.extend({}, DEFAULT_OPTIONS, options);
+  WaypointAnimation = function(options) {
+    var self;
+
+    self = this;
+    self.options = $.extend({}, DEFAULT_OPTIONS, options);
 
     updateWindowHeight();
     updateScrollPosition();
-    measureAllEllements(options.triggerSelector);
+    measureAllEllements(self.options.triggerSelector);
 
-    updateVisibles = function() {
-      findVisibles();
-      updateVisibleClasses(options.animationClass, options.removeClasses);
-    };
-
-    updateVisibles();
+    self.updateVisibles();
 
     $w.on('resize.' + NAME_SPACE + ' orientationchange.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
         updateWindowHeight();
-        measureAllEllements(options.triggerSelector);
+        measureAllEllements(self.options.triggerSelector);
 
-        updateVisibles();
+        self.updateVisibles();
       });
     }).on('scroll.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
         updateScrollPosition();
-        updateVisibles();
+        self.updateVisibles();
       });
     });
   };
 
-  return waypointAnimation;
+  WaypointAnimation.prototype = {
+    updateVisibles: function() {
+      findVisibles();
+      updateVisibleClasses(this.options.animationClass, this.options.removeClasses);
+    },
+    on: function(callback) {
+      callbacks.push(callback);
+    }
+  };
+
+  return WaypointAnimation;
 }));
