@@ -38,15 +38,21 @@ Callbacks can be registered, that are called every time an element becomes visib
 ```
 
 #### triggerSelector
-*default* '.js-animation-trigger'
+Type: `String`
+Default: **.js-animation-trigger**
+
 defines the class of the elements that should be measured. Every time an element with this class will scroll in to visible range, the magic will happen.
 
 #### activeClass
-*default* 'is-shown'
+Type: `String`
+Default: **.is-shown**
+
 defines the class that will be given to the visible elements that match the triggerSelector
 
 #### removeClasses
-*default* false
+Type: `Boolean`
+Default: **false**
+
 optionally the `activeClass` can be removed of the elements that are not visible anymore.
 
 
