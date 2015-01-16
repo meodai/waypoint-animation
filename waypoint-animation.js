@@ -173,14 +173,14 @@
 
     updateWindowHeight();
     updateScrollPosition();
-    measureAllEllements(self.options.triggerSelector);
+    self.remeasure();
 
     self.updateVisibles();
 
     $w.on('resize.' + NAME_SPACE + ' orientationchange.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
         updateWindowHeight();
-        measureAllEllements(self.options.triggerSelector);
+        self.remeasure();
 
         self.updateVisibles();
       });
@@ -208,6 +208,13 @@
      */
     on: function(callback) {
       callbacks.push(callback);
+    },
+    /**
+     * remeasure: remeasures all elements
+     * @returns {void}
+     */
+    remeasure: function() {
+      measureAllEllements(this.options.triggerSelector);
     }
   };
 
