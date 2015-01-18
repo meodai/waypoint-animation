@@ -33,7 +33,8 @@ Callbacks can be registered, that are called every time an element becomes visib
   options = {
     triggerSelector: '.js-animation-trigger',
     animationClass: 'is-shown',
-    removeClasses: false
+    removeClasses: false,
+    offset: 100
   };
 ```
 
@@ -55,4 +56,8 @@ Default: **false**
 
 optionally the `activeClass` can be removed of the elements that are not visible anymore.
 
+#### offset
+Type: `integer`
+Default: **0**
 
+defines an offset in `px` for the measurement of the visible scroll range. This will trigger the set and remove `activeClass` earlier or later depending if the offset is positive or negative.
