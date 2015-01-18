@@ -54,11 +54,13 @@
 
   /**
    * updateScrollPosition : update the scroll positions typically called on scroll event
+   * @param {int} [offset] scroll offset for measurement
    * @returns {void}
    */
-  updateScrollPosition = function() {
-    scrollTopPosition = $w.scrollTop();
-    scrollBottomPosition = scrollTopPosition + windowHeight;
+  updateScrollPosition = function(offset) {
+    offset = offset || 0;
+    scrollTopPosition = $w.scrollTop() + offset;
+    scrollBottomPosition = scrollTopPosition + windowHeight - (offset * 2);
   };
 
   /**
@@ -109,10 +111,14 @@
    * @returns {Boolean}        true if its visible
    */
   isVisible = function(top, bottom) {
-    if (scrollBottomPosition > top && scrollTopPosition < top) {
+
+    if (scrollBottomPosition >= top && scrollTopPosition <= top) {
       return true;
     }
-    if (scrollBottomPosition > bottom && scrollTopPosition < bottom) {
+    if (scrollBottomPosition >= bottom && scrollTopPosition <= bottom) {
+      return true;
+    }
+    if (scrollBottomPosition <= bottom && scrollTopPosition >= top ) {
       return true;
     }
   };
@@ -172,21 +178,17 @@
     self.options = $.extend({}, DEFAULT_OPTIONS, options);
 
     updateWindowHeight();
-    updateScrollPosition();
     self.remeasure();
-
     self.updateVisibles();
 
     $w.on('resize.' + NAME_SPACE + ' orientationchange.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
         updateWindowHeight();
         self.remeasure();
-
         self.updateVisibles();
       });
     }).on('scroll.' + NAME_SPACE, function() {
       requestAnimationFrame(function() {
-        updateScrollPosition();
         self.updateVisibles();
       });
     });
@@ -198,6 +200,7 @@
      * @returns {void}
      */
     updateVisibles: function() {
+      updateScrollPosition(this.options.offset);
       findVisibles();
       updateVisibleClasses(this.options.activeClass, this.options.removeClasses);
     },
