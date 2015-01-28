@@ -153,6 +153,7 @@
    * updateVisibleClasses sets and remove CSS-classes that are newly shown or hidden
    * @param   {string}        className     name of the CSS-class that should be added
    * @param   {boolean}       removeClasses determines if className should be removed, once an element leaves the visible range again
+   * @param   {string}        inactiveClass cssclass set to elements that are not visible
    * @returns {void}
    */
   updateVisibleClasses = function(className, removeClasses, inactiveClass) {
@@ -178,6 +179,7 @@
     self = this;
     self.options = $.extend({}, DEFAULT_OPTIONS, options);
 
+    // set inactiveClass to all elements
     $( this.options.triggerSelector ).addClass( self.options.inactiveClass );
 
     updateWindowHeight();
