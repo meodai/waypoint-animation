@@ -31,8 +31,9 @@ Callbacks can be registered, that are called every time an element becomes visib
 ### Options
 ```javascript
   options = {
-    triggerSelector: '.js-animation-trigger',
+    triggerSelector: '.js-scroll-trigger',
     animationClass: 'is-shown',
+    inactiveClass: undefined,
     removeClasses: false,
     offset: 100
   };
@@ -42,13 +43,20 @@ Callbacks can be registered, that are called every time an element becomes visib
 Type: `String`
 Default: **.js-animation-trigger**
 
-defines the class of the elements that should be measured. Every time an element with this class will scroll in to visible range, the magic will happen.
+defines the class of elements that should be measured. Every time an element with this class will scroll in to visible range, the magic will happen.
 
 #### activeClass
 Type: `String`
 Default: **.is-shown**
 
 defines the class that will be given to the visible elements that match the triggerSelector
+
+#### inactiveClass
+Type: `String`
+Default: undefined
+
+defines a class that will be set on elements that are not in the visible scroll-area
+
 
 #### removeClasses
 Type: `Boolean`
