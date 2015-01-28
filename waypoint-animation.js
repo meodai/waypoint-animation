@@ -27,9 +27,8 @@
   NAME_SPACE = 'WaypointAnimation';
 
   DEFAULT_OPTIONS = {
-    triggerSelector: '.js-animation-trigger',
+    triggerSelector: '.js-scroll-trigger',
     activeClass: 'is-shown',
-    inactiveClass: '',
     removeClasses: false,
     offset: 0
   };
@@ -178,6 +177,9 @@
 
     self = this;
     self.options = $.extend({}, DEFAULT_OPTIONS, options);
+
+    // sets inactiveClass to an empty string
+    self.options.inactiveClass = self.options.inactiveClass || '';
 
     // set inactiveClass to all elements
     $( this.options.triggerSelector ).addClass( self.options.inactiveClass );
