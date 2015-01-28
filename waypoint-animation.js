@@ -73,7 +73,7 @@
     var top = $el.offset().top;
     return {
       top: top,
-      bottom: top + $el.height()
+      bottom: top + $el.outerHeight()
     };
   };
 
