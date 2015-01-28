@@ -29,6 +29,7 @@
   DEFAULT_OPTIONS = {
     triggerSelector: '.js-animation-trigger',
     activeClass: 'is-shown',
+    hiddenClass: '',
     removeClasses: false,
     offset: 0
   };
@@ -150,18 +151,21 @@
 
   /**
    * updateVisibleClasses sets and remove CSS-classes that are newly shown or hidden
-   * @param   {string}        className     name of the CSS-class that should be added
-   * @param   {boolean}       removeClasses determines if className should be removed, once an element leaves the visible range again
+   * @param   {string}        className         name of the CSS-class that should be added
+   * @param   {boolean}       removeClasses     determines if className should be removed, once an element leaves the visible range again
+   * @param   {string}        classNameHidden   defines the name of the class added to the element that are not visible
    * @returns {void}
    */
-  updateVisibleClasses = function(className, removeClasses) {
+  updateVisibleClasses = function(className, removeClasses, classNameHidden) {
     $.each(appearingElements, function() {
       this.$el.addClass(className);
+      this.$el.removeClass(classNameHidden);
     });
     if (removeClasses) {
       // remove classes if not visible
       $.each(disappearingElements, function() {
         this.$el.removeClass(className);
+        this.$el.addClass(classNameHidden);
       });
     }
   };
@@ -176,6 +180,9 @@
 
     self = this;
     self.options = $.extend({}, DEFAULT_OPTIONS, options);
+
+    // adds the hidden class by default
+    $( self.options.triggerSelector ).addClass( self.options.hiddenClass );
 
     updateWindowHeight();
     self.remeasure();
@@ -202,7 +209,7 @@
     updateVisibles: function() {
       updateScrollPosition(this.options.offset);
       findVisibles();
-      updateVisibleClasses(this.options.activeClass, this.options.removeClasses);
+      updateVisibleClasses(this.options.activeClass, this.options.removeClasses, this.options.hiddenClass);
     },
     /**
      * On registers a callback
