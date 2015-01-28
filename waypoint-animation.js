@@ -29,6 +29,7 @@
   DEFAULT_OPTIONS = {
     triggerSelector: '.js-animation-trigger',
     activeClass: 'is-shown',
+    inactiveClass: '',
     removeClasses: false,
     offset: 0
   };
@@ -154,14 +155,14 @@
    * @param   {boolean}       removeClasses determines if className should be removed, once an element leaves the visible range again
    * @returns {void}
    */
-  updateVisibleClasses = function(className, removeClasses) {
+  updateVisibleClasses = function(className, removeClasses, inactiveClass) {
     $.each(appearingElements, function() {
-      this.$el.addClass(className);
+      this.$el.addClass(className).removeClass(inactiveClass);
     });
     if (removeClasses) {
       // remove classes if not visible
       $.each(disappearingElements, function() {
-        this.$el.removeClass(className);
+        this.$el.removeClass(className).addClass(inactiveClass);
       });
     }
   };
@@ -176,6 +177,8 @@
 
     self = this;
     self.options = $.extend({}, DEFAULT_OPTIONS, options);
+
+    $( this.options.triggerSelector ).addClass( self.options.inactiveClass );
 
     updateWindowHeight();
     self.remeasure();
@@ -202,7 +205,7 @@
     updateVisibles: function() {
       updateScrollPosition(this.options.offset);
       findVisibles();
-      updateVisibleClasses(this.options.activeClass, this.options.removeClasses);
+      updateVisibleClasses(this.options.activeClass, this.options.removeClasses, this.options.inactiveClass);
     },
     /**
      * On registers a callback
