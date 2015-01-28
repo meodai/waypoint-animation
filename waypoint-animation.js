@@ -13,13 +13,14 @@
   // functions
   var WaypointAnimation, updateWindowHeight, updateScrollPosition,
   measureElement, measureAllEllements, findVisibles, isVisible, updateVisibleClasses, triggerCallbacks,
+  nativeInnerHeight,
 
   // constants
   DEFAULT_OPTIONS, NAME_SPACE,
 
   // vars
   windowHeight, scrollTopPosition, scrollBottomPosition, visibleElements, appearingElements, disappearingElements, elements, callbacks,
-
+  heightMethod,
   // DOM elements
   $w;
 
@@ -32,6 +33,14 @@
     hiddenClass: '',
     removeClasses: false,
     offset: 0
+  };
+
+  /**
+   * Wrapper function for native inner height calculation
+   * @return {int} native innerHeight
+   */
+  nativeInnerHeight = function () {
+    return window.innerHeight;
   };
 
   $w = $(window);
@@ -50,7 +59,12 @@
    * @returns {void}
    */
   updateWindowHeight = function() {
-    windowHeight = $w.height();
+    // Define height method
+    // See: http://stackoverflow.com/questions/12103208/jquery-window-height-is-returning-the-document-height
+    if (!heightMethod) {
+      heightMethod = window.innerHeight < $w.height() ? nativeInnerHeight : $w.height;
+    }
+    windowHeight = heightMethod();
   };
 
   /**
