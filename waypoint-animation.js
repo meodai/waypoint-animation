@@ -12,7 +12,7 @@
 }(this, function ($) {
   // functions
   var WaypointAnimation, updateWindowHeight, updateScrollPosition,
-  measureElement, measureAllEllements, findVisibles, isVisible, updateVisibleClasses, triggerCallbacks,
+  measureElement, measureAllElements, findVisibles, isVisible, updateVisibleClasses, triggerCallbacks,
 
   // constants
   DEFAULT_OPTIONS, NAME_SPACE,
@@ -30,7 +30,8 @@
     triggerSelector: '.js-scroll-trigger',
     activeClass: 'is-shown',
     removeClasses: false,
-    offset: 0
+    offset: 0,
+    offsetAttribute: 'data-scrolloffset'
   };
 
   $w = $(window);
@@ -65,28 +66,34 @@
 
   /**
    * measureElement finds out the vertical position
-   * @param   {object} $el jQuery DOM reference
-   * @returns {object}     containing the coordinates of the element
+   * @param   {object} $el    jQuery DOM reference
+   * @param   {object} offset offset of an individual elements
+   * @returns {object}        containing the coordinates of the element
    */
-  measureElement = function($el) {
-    var top = $el.offset().top;
+  measureElement = function($el, offset) {
+    var offset, top = $el.offset().top;
+    offset = offset || 0;
+    if( $el.outerHeight() <= offset * 2 ) {
+      console.error('offset is larger than element ', $el);
+    }
     return {
-      top: top,
-      bottom: top + $el.outerHeight()
+      top: top - offset,
+      bottom: top + $el.outerHeight() + offset
     };
   };
 
   /**
-   * measureAllEllements measures all the registered element-positions
+   * measureAllElements measures all the registered element-positions
    * @param   {string} triggerSelector the DOM selector!
    * @returns {void}
    */
-  measureAllEllements = function(triggerSelector) {
+  measureAllElements = function(triggerSelector, offsetAttribute) {
     elements = $(triggerSelector).map(function() {
-      var $el = $(this);
+      var offset, $el = $(this);
+      offset = this.hasAttribute(offsetAttribute) ? parseInt(this.getAttribute(offsetAttribute)) : 0;
       return {
         $el: $el,
-        position: measureElement($el),
+        position: measureElement($el, offset),
         isVisible: false
       };
     });
@@ -224,7 +231,7 @@
      * @returns {void}
      */
     remeasure: function() {
-      measureAllEllements(this.options.triggerSelector);
+      measureAllElements(this.options.triggerSelector, this.options.offsetAttribute);
     }
   };
 
