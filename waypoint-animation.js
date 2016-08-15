@@ -7,7 +7,7 @@
     define(['jquery', 'requestAnimationFrame'], factory);
   } else {
     // Browser globals
-    root.WaypointAnimation = factory(root.$);
+    root.WaypointAnimation = factory(root.jQuery);
   }
 }(this, function ($) {
   // functions
